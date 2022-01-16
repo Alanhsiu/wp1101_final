@@ -18,14 +18,25 @@ import { getMainDefinition } from "apollo-utilities";
 import { BrowserRouter } from "react-router-dom";
 import store from "./store";
 
+
+const generateWsLink = () =>{
+  const {protocol, host, origin}=new URL(process.env.REACT_APP_BASE_URL);
+  let wsPrefix = "";
+  if(protocol==="https:"){
+    wsPrefix="wss://";
+  }
+  else wsPrefix = "ws://";
+  return [origin+"graphql",wsPrefix+host];
+}
+
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: "http://localhost:5000/",
+  uri: generateWsLink()[0],
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:5000/`,
+  uri: generateWsLink()[1],
   options: { reconnect: true },
 });
 
