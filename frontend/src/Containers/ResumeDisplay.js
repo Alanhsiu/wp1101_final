@@ -22,6 +22,7 @@ const ResumeDisplay = ({ id, me, navigate }) => {
   const [show, setShow] = useState([]);
   const queryString = id;
   const handleQueryResume = async () => {
+    console.log(id)
     const {
       data: { result },
     } = await axios.get("/api/query_resume", {

@@ -8,4 +8,5 @@
     "heroku-prebuild": "yarn install && yarn install --cwd ./frontend && yarn install --cwd ./backend",
     "build": "cd frontend && yarn build"
   }
+  
 }

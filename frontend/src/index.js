@@ -18,15 +18,18 @@ import { getMainDefinition } from "apollo-utilities";
 import { BrowserRouter } from "react-router-dom";
 import store from "./store";
 
-
-const generateWsLink = () =>{
-  const {protocol, host, origin}=new URL(process.env.REACT_APP_BASE_URL);
+const generateWsLink = () => {
+  // REACT_APP_BASE_URL = http://localhost:4000
+  // protocol: http:
+  // host: localhost:4000
+  // origin: localhost:4000
+  const { protocol, host, origin } = new URL(process.env.REACT_APP_BASE_URL);
   let wsPrefix = "";
-  if(protocol==="https:"){
-    wsPrefix="wss://";
+  if (protocol === "https:") {
+    wsPrefix = "wss://";
   }
   else wsPrefix = "ws://";
-  return [origin+"graphql",wsPrefix+host];
+  return [origin + "/graphql", wsPrefix + host];
 }
 
 // Create an http link:
