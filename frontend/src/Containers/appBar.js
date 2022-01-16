@@ -1,5 +1,4 @@
 import React from "react";
-import Logo from "./logo.svg";
 import { AppBar, Toolbar, Button } from "@material-ui/core";
 import { Mail } from "@material-ui/icons";
 import sessionAPI from "../utils/sessionAPI";
@@ -17,7 +16,7 @@ function Appbar(props) {
             className="logo"
             src="https://www.ntu.edu.tw/about/doc/Emblem72.jpg"
             alt="Logo"
-            style={{ width:"50px" }}
+            style={{ width: "50px" }}
           />
           <span className="app-name" onClick={() => props.navigate("/body")}>
             &nbsp;NTU TUTOR WEB
@@ -47,10 +46,10 @@ function Appbar(props) {
           </Button>
           <Button
             color="inherit"
-            onClick={async() => {
+            onClick={async () => {
               props.navigate("/");
-              await sessionAPI.deleteSession()
-              props.setSignedIn("false")
+              await sessionAPI.deleteSession();
+              props.setSignedIn("false");
             }}
           >
             Log out
@@ -67,8 +66,7 @@ function Appbar(props) {
           </IconButton> */}
       </Toolbar>
     </AppBar>
-  )
+  );
 }
-
 
 export default Appbar;

@@ -19,20 +19,8 @@ import Message from "./resolvers/Message";
 import ChatBox from "./resolvers/ChatBox";
 import connection from "./mongo";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const port = process.env.PORT || 80;
-
 const typeDefs = importSchema("./src/schema.graphql");
 const pubsub = new PubSub();
-
-server.express.use(cors());
-server.express.use("/api", router);
-server.express.use(bodyParser.json());
-server.express.use(express.static(path.join(__dirname, "build")));
-server.express.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 // const port = process.env.PORT || 4000;
 
 const server = new GraphQLServer({
@@ -51,16 +39,24 @@ const server = new GraphQLServer({
 });
 
 connection();
-
+server.express.use(cors());
+server.express.use("/api", router);
+server.express.use(bodyParser.json());
+if (process.env.NODE_ENV === "production") {
+  server.express.use(express.static(path.resolve("../frontend", "build")));
+  server.express.get("/*", function (req, res) {
+    res.sendFile(path.resolve("../frontend", "build", "index.html"));
+  });
+}
 // httpServer.listen(port, () => {
 //   console.log(`🚀 Server Ready at ${port}! 🚀`);
 //   console.log(`Graphql Port at ${port}${server.subscriptionsPath}`);
 // });
 
 const opt = {
-  port: process.env.PORT||5000,
-  endpoint: "/graphql"
-}
+  port: process.env.PORT || 5000,
+  endpoint: "/graphql",
+};
 
 server.start(opt, () => {
   console.log(`The server is up on port ${opt.port}!`);
