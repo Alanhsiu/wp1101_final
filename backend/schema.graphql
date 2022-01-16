@@ -1,0 +1,108 @@
+# Date type. See resolvers/Date.js
+scalar Date
+
+# See resolvers/Query.js
+
+type Query {
+  cases(Subject: Subject): [Case!]
+  teacher(name: String, Subject: Subject, price: Int): [Resume!]!  
+}
+
+# See resolvers/Mutation.js
+
+type Mutation {
+  createResume(data: CreateResumeInput!): Resume!
+  updateResume(id: ID!, data: UpdateResumeInput!): Resume!
+  createCase(data: CreateCaseInput!): Case!
+  deleteCase(id: ID!): Case!
+  updateCase(id: ID!, data: UpdateCaseInput!): Case!
+}
+
+# See resolvers/Subscription.js
+
+type Subscription {
+  resumeCreated: Resume!
+  resumeUpdated: Resume!
+  caseCreated: Case!
+  caseUpdated: Case!
+  caseDeleted: ID!
+
+
+  # TODO 6.1 Add the taskDeleted subscription
+}
+
+# Input for creating a task
+input CreateResumeInput {
+  id: ID!
+  name: String!
+  subjects: [Subject!]!
+  price: Int!
+  content: String!
+  dueDate: Date! 
+}
+
+input UpdateResumeInput {
+  name: String
+  subjects: [Subject!]
+  price: Int
+  content: String
+  dueDate: Date!
+}
+
+input CreateCaseInput {
+  id: ID!
+  name: String!
+  subject: Subject!
+  content: String!
+  price: Int!
+  dueDate: Date!
+}
+
+input UpdateCaseInput {
+  name: String
+  subject: Subject
+  content: String
+  price: Int
+  dueDate: Date
+}
+
+# Status of a task. See resolvers/Status.js.
+enum Status {
+  TODO
+  INPROGRESS
+  DONE
+}
+
+enum Subject {
+  Math
+  Mandarin
+  English
+  Pyhsics
+  Chemistry
+  Biology
+  Geography
+  History
+  Circuit
+  Pokemon
+}
+
+# A task will have an id, title, content, dueDate and status
+type Case {
+  id: ID!
+  name: String!
+  subject: Subject!
+  content: String!
+  price: Int!
+  dueDate: Date! # use scalar Date above
+}
+
+type Resume {
+  id: ID!
+  name: String!
+  subjects: [Subject!]!
+  price: Int!
+  content: String!
+  dueDate: Date! # use scalar Date above
+}
+
+
