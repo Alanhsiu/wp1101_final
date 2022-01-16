@@ -16,9 +16,15 @@ import Border from "../Components/Border";
 import sessionAPI from "../utils/sessionAPI";
 import instance from "../api";
 
-
-
-const SignIn = ({ me, setMe, id, setId, displayStatus,setSignedIn, navigate }) => {
+const SignIn = ({
+  me,
+  setMe,
+  id,
+  setId,
+  displayStatus,
+  setSignedIn,
+  navigate,
+}) => {
   const [password, setPassword] = useState("");
   const [userID, setUserID] = useState("");
   return (
@@ -66,7 +72,7 @@ const SignIn = ({ me, setMe, id, setId, displayStatus,setSignedIn, navigate }) =
         <Space>
           <div
             className={styles["container03"]}
-            onClick={async() => {
+            onClick={async () => {
               if (!userID)
                 displayStatus({
                   type: "error",
@@ -79,14 +85,14 @@ const SignIn = ({ me, setMe, id, setId, displayStatus,setSignedIn, navigate }) =
                 });
               } else {
                 console.log("go");
-                const temp = await  sessionAPI.postSession({userID, password})
-                await console.log(temp)
-                setMe(temp[1])
-                setId(temp[0])
-                setSignedIn(true)
+                const temp = await sessionAPI.postSession({ userID, password });
+                await console.log(temp);
+                setMe(temp[1]);
+                setId(temp[0]);
+                setSignedIn(true);
                 setTimeout(() => {
-                    navigate("/body");
-                  }, 300);
+                  navigate("/body");
+                }, 300);
               }
             }}
           >
