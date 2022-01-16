@@ -22,22 +22,18 @@ import connection from "./mongo";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 80;
 
-const typeDefs = importSchema("./backend/schema.graphql");
+const typeDefs = importSchema("./src/schema.graphql");
 const pubsub = new PubSub();
-const app = express();
 
-app.use(cors());
-app.use("/api", router);
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "build")));
-app.get("/*", function (req, res) {
+server.express.use(cors());
+server.express.use("/api", router);
+server.express.use(bodyParser.json());
+server.express.use(express.static(path.join(__dirname, "build")));
+server.express.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log(`Server is up on port ${port}.`);
-});
 
 const server = new GraphQLServer({
   typeDefs,
@@ -53,18 +49,19 @@ const server = new GraphQLServer({
     pubsub,
   },
 });
-server.applyMiddleware({ app });
-const httpServer = http.createServer(app);
-server.installSubscriptionHandlers(httpServer);
 
 connection();
 
-httpServer.listen(port, () => {
-  console.log(`🚀 Server Ready at ${port}! 🚀`);
-  console.log(`Graphql Port at ${port}${server.subscriptionsPath}`);
-});
-
-
-// server.start({ port: process.env.PORT | 5000 }, () => {
-//   console.log(`The server is up on port ${process.env.PORT | 5000}!`);
+// httpServer.listen(port, () => {
+//   console.log(`🚀 Server Ready at ${port}! 🚀`);
+//   console.log(`Graphql Port at ${port}${server.subscriptionsPath}`);
 // });
+
+const opt = {
+  port: process.env.PORT||5000,
+  endpoint: "/graphql"
+}
+
+server.start(opt, () => {
+  console.log(`The server is up on port ${opt.port}!`);
+});
